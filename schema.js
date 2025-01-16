@@ -17,15 +17,19 @@ const typeDefs = gql`
   input MovieInput {
     id: ID!
     title: String!
-    director: String!
-    releaseYear: Int!
-    genres: [String!]!
+    director: String
+    releaseYear: Int
+    genres: [String!]
   }
 
   type Mutation {
     addMovie(data: MovieInput!): Movie!
-    updateMovie(id: ID!, data: MovieInput!): Movie!
+    updateMovie(id: ID!, data: MovieInput): Movie!
     deleteMovie(id: ID!): Boolean!
+  }
+
+  type Subscription{
+    movieAdded: Movie!
   }
 
 `;

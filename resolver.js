@@ -1,4 +1,6 @@
-
+const pubsub = require("./pubsub");
+// const { subscribe } = require("./pubsub");
+const MOVIE_ADDED= `MOVIE_ADDED`
 const movies = []; 
 const genres = ["Action", "Drama", "Comedy", "Horror", "Sci-Fi"]; 
 
@@ -12,6 +14,7 @@ const resolvers = {
     addMovie: (_, { data }) => {
       const newMovie = { id: movies.length + 1, ...data };
       movies.push(newMovie);
+      pubsub.publish(MOVIE_ADDED, { movieAdded: newMovie });
       return newMovie;
     },
     updateMovie: (_, { id, data }) => {
@@ -27,6 +30,12 @@ const resolvers = {
       return true;
     },
   },
+
+  Subscription:{
+    movieAdded:{
+        subscribe:()=> pubsub.asyncIterableIterator([MOVIE_ADDED])
+    }
+  }
 
  
 };
